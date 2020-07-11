@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+import { gsap } from 'gsap'
 import logo from './images/img_react-gsap.png'
 import './App.css'
 
@@ -6,7 +7,12 @@ function App() {
   const headerRef = useRef(null)
 
   useEffect(() => {
-    console.log(headerRef)
+    gsap.from(headerRef.current, {
+      duration: 1,
+      autoAlpha: 0,
+      ease: 'none',
+      delay: 1,
+    })
   }, [headerRef])
 
   return (
