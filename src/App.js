@@ -3,10 +3,29 @@ import { gsap } from 'gsap'
 import logo from './images/img_react-gsap.png'
 import './App.css'
 
+const sections = [
+  {
+    title: 'Architecto aliquam',
+    subtitle: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. At, ea.',
+  },
+  {
+    title: 'Ceritatis placeat',
+    subtitle:
+      'Dignissimos placeat cupiditate perferendis eaque praesentium similique officia dolore?',
+  },
+  {
+    title: 'Vitae voluptates',
+    subtitle:
+      'In ullam et nulla repudiandae praesentium, laboriosam quas tempore fuga asperiores eveniet amet.',
+  },
+]
+
 function App() {
   const [background, setBackground] = useState('#5a7d95')
 
   const headerRef = useRef(null)
+  const revealsRefs = useRef([])
+  revealsRefs.current = []
 
   const toggleBackground = () => {
     const color = background !== '#5a7d95' ? '#5a7d95' : '#1b4943'
@@ -30,6 +49,13 @@ function App() {
     })
   }, [headerRef])
 
+  const addToRefs = (el) => {
+    if (el && !revealsRefs.current.includes(el)) {
+      revealsRefs.current.push(el)
+    }
+    console.log(revealsRefs.current)
+  }
+
   return (
     <div className="App">
       <header ref={headerRef} className="App-header">
@@ -38,10 +64,14 @@ function App() {
         <p>Scroll down to see sections being revealed by ScrollTrigger.</p>
       </header>
       <main className="App-main">
-        <div className="App-section">
-          <h2>Title</h2>
-          <p>Subtitle</p>
-        </div>
+        {sections.map(({ title, subtitle }) => {
+          return (
+            <div key={title} className="App-section" ref={addToRefs}>
+              <h2>{title}</h2>
+              <p>{subtitle}</p>
+            </div>
+          )
+        })}
       </main>
     </div>
   )
