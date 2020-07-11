@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import logo from './images/img_react-gsap.png'
 import './App.css'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const sections = [
   {
@@ -47,13 +50,31 @@ function App() {
       ease: 'none',
       delay: 1,
     })
-  }, [headerRef])
+
+    revealsRefs.current.forEach((el, index) => {
+      gsap.fromTo(
+        el,
+        { autoAlpha: 0 },
+        {
+          duration: 1,
+          autoAlpha: 1,
+          ease: 'none',
+          scrollTrigger: {
+            id: `section-${index + 1}`,
+            trigger: el,
+            start: 'top center+=100',
+            toggleActions: 'play none none reverse',
+            markers: true,
+          },
+        }
+      )
+    })
+  }, [])
 
   const addToRefs = (el) => {
     if (el && !revealsRefs.current.includes(el)) {
       revealsRefs.current.push(el)
     }
-    console.log(revealsRefs.current)
   }
 
   return (
